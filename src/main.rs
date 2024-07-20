@@ -1,4 +1,4 @@
-
+use walkdir::WalkDir;
 use tree_sitter::{Parser, Node};
 
 
@@ -30,12 +30,20 @@ fn main() {
     parser
         .set_language(&tree_sitter_python::language())
         .expect("Error loading Python grammar");
- 
+    for entry in WalkDir::new("test") {
+        let path = entry.as_ref().unwrap().path();
+        let source_code = std::fs::read_to_string(path).unwrap_or_default();
+        let tree = parser.parse(&source_code, None).unwrap();
+        let root_node = tree.root_node();
+        print_tree(root_node, &source_code,0);
+
+    }
+/*
     let source_code = std::fs::read_to_string("test.py").unwrap_or_default();
     let tree = parser.parse(&source_code, None).unwrap();
     let root_node = tree.root_node();
 
     print_tree(root_node, &source_code,0);
-
+*/
 }
 

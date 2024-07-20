@@ -10,3 +10,4 @@ cc="*"
 [dependencies]
 tree-sitter = "0.22"
 tree-sitter-python = "0.21" # Replace with the language you need
+walkdir = "2.5.0"
