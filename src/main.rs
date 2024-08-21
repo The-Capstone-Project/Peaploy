@@ -11,11 +11,14 @@ fn print_tree(node: Node, source: &str, mut val:i32) {
     
     
     if val>0 && kind == "identifier" {
-        println!("{:?} ({:?}) '{}'", kind, start_byte, text);
+        print!("{}",text);
+        println!();
     }
+    
     for child in node.children(&mut node.walk()) {
         if child.kind() == "from" || child.kind() == "import"{
             val=1;
+            print!(" {} ",child.kind());
             print_tree(child, source,val);
         }
         else{
@@ -24,6 +27,8 @@ fn print_tree(node: Node, source: &str, mut val:i32) {
     } 
 
 }
+
+
 
 fn main() {
     let mut parser = Parser::new();
@@ -42,7 +47,6 @@ fn main() {
     let source_code = std::fs::read_to_string("test.py").unwrap_or_default();
     let tree = parser.parse(&source_code, None).unwrap();
     let root_node = tree.root_node();
-
     print_tree(root_node, &source_code,0);
 */
 }
